@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ！！！！！修改此文件请小心，改错将导致系统错乱！！！！！ -->
+<jobs>
+	<!-- isEmail:办件保存、状态改变后是否发送通知邮件 -->
+	<!-- timeout1: 一次答复时长(天) -->
+	<!-- timeout2: 二次答复时长(天) 如果天数大于等于1000，表示禁用二次答复功能 -->
+	<!-- state属性千万不要改 ！！！！！ -->
+	<job deptId="0" timeout1="15" timeout2="90" isEmail="true">
+		<steps>
+			<step name="待审核平台" enable="true" state="4" />
+			<step name="内参审核平台" enable="false" state="6" />
+			<step name="内部资料" enable="false" state="5" />
+			<step name="待分拨平台" enable="true" state="3" />
+			<step name="待答复平台" enable="true" state="0" />
+			<step name="已答复平台" enable="true" state="1" />
+			<step name="回收站" enable="true" state="2" />
+		</steps>
+	</job>
+	<!-- 
+	<job deptId="1000000000000000" timeout1="7" timeout2="90" isEmail="true">
+		<steps>
+			<step name="待审核平台" enable="true" state="4" />
+			<step name="内参审核平台" enable="false" state="6" />
+			<step name="内部资料" enable="false" state="5" />
+			<step name="待分拨平台" enable="true" state="3" />
+			<step name="待答复平台" enable="true" state="0" />
+			<step name="已答复平台" enable="true" state="1" />
+			<step name="回收站" enable="true" state="2" />
+		</steps>
+	</job>
+	 -->
+</jobs>

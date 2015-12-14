@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.enorth.cebx.mapper.DirMapper">
+
+	<resultMap type="DirVo" id="DirResult">
+		<id column="dir_id" property="dirId"/>
+		<result column="dir_title" property="dirTitle"/>
+		<result column="state" property="state"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="parent_dir_id" property="parentDirId"/>
+	</resultMap>
+	
+	<sql id="baseSelect">
+		dir_id,
+		dir_title,
+		state,
+		reg_date,
+		parent_dir_id
+	</sql>
+	
+	<select id="getDirById" parameterType="int" resultMap="DirResult">
+		select
+			<include refid="baseSelect"/>
+		from
+			t_dir
+		where
+			dir_id = #{dirId}
+	</select>
+	
+	<select id="getDirVos" resultMap="DirResult">
+		select
+			<include refid="baseSelect"/>
+		from
+			t_dir
+	</select>
+	
+	<insert id="addDir" parameterType="DirVo">
+		insert into t_dir(dir_id, dir_title, state, reg_date, parent_dir_id)
+		values(#{dirId}, #{dirTitle}, #{state}, #{regDate}, #{parentDirId})
+	</insert>
+</mapper>

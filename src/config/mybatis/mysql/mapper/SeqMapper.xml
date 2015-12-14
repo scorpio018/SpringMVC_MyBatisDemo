@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.enorth.cebx.mapper.SeqMapper">
+	
+	<!-- 查询多条记录(按照用户名或者真实姓名模糊查询) edit By cn-->
+	<select id="selectCurValBySeqName" parameterType="String" resultType="long" >
+		select nextval(#{seqName}) as c
+		<!-- 
+		select *
+		from
+		t_sequences seq where seq.seq_name = #{seqName}
+		 -->
+	</select>
+	
+	<!-- 查询所有记录 -->
+	<update id="updateBySeqName" parameterType="String">
+		update t_sequences seq set seq.cur_val=seq.cur_val+seq.step_val where seq_name=#{seqName}
+	</update>
+	
+	<insert id="insertSeq" parameterType="hashmap">
+		insert into t_sequences (seq_name,init_val,cur_val) values (#{seqName},#{initValue},#{curValue})
+	</insert>
+	<resultMap type="SequencesVo" id="seq-result">
+		<id property="seqName" column="seq_name" />
+		<result property="initVal" column="init_val" />
+		<result property="maxVal" column="max_val" />
+		<result property="curVal" column="cur_val" />
+		<result property="stepVal" column="step_val" />
+		<result property="cacheSize" column="cache_size" />
+		<result property="seqMemo" column="seq_memo" />
+	</resultMap>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.enorth.cebx.mapper.FileMapper">
+
+	<sql id="baseSelect">
+		file_id,
+		dir_id,
+		file_name,
+		title,
+		cebx_content,
+		upload_date,
+		upload_ip,
+		state,
+		file_number,
+		priv_level
+	</sql>
+	
+	<resultMap type="FileVo" id="FileResult">
+		<id column="file_id" property="fileId"/>
+		<result column="dir_id" property="dirId"/>
+		<result column="file_name" property="fileName"/>
+		<result column="title" property="title"/>
+		<result column="cebx_content" property="cebxContent"/>
+		<result column="upload_date" property="uploadDate"/>
+		<result column="upload_ip" property="uploadIp"/>
+		<result column="state" property="state"/>
+		<result column="file_number" property="fileNumber"/>
+		<result column="priv_level" property="privLevel"/>
+		<association property="dirVo" javaType="DirVo">
+			<result column="dir_title" property="dirTitle"/>
+		</association>
+	</resultMap>
+	
+	<sql id="innerJoinSelect">
+		f.file_id as file_id,
+		f.dir_id as dir_id,
+		d.dir_title as dir_title,
+		f.file_name as file_name,
+		f.title as title,
+		f.cebx_content as cebx_content,
+		f.upload_date as upload_date,
+		f.upload_ip as upload_ip,
+		f.state as state,
+		f.file_number as file_number,
+		f.priv_level as priv_level
+	</sql>
+	
+	<select id="getFileVosByPage" parameterType="Page" resultMap="FileResult">
+		select
+			<include refid="innerJoinSelect"/>
+		from
+			t_file f
+		inner join
+			t_dir d
+		on
+			f.dir_id = d.dir_id
+		where
+			f.state = #{vo.state}
+	</select>
+	
+	<insert id="addFile" parameterType="FileVo">
+		insert into t_file(file_id, dir_id, file_name, title, cebx_content, upload_date, upload_ip, state, file_number, priv_level)
+		values(#{fileId}, #{dirId}, #{fileName}, #{title}, #{cebxContent}, #{uploadDate}, #{uploadIp}, #{state}, #{fileNumber}, #{privLevel})
+	</insert>
+	
+	<update id="deleteFile" parameterType="FileVo">
+		update 
+			t_file
+		set
+			state = #{state}
+		where
+			file_id = #{fileId}
+	</update>
+	
+</mapper>
